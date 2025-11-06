@@ -1,16 +1,10 @@
 [project]
-name = "django-tpl"
+name = "dyvo"
 dynamic = ["version"]
-description = "The Django project template with supporting services containers (e.g. postgresql, smtp etc.)"
+description = "Project, that will change the way we travel"
 requires-python = ">= 3.10"
-maintainers = [
-    { name = "Serhii Horodilov", email = "shorodilov@devsforge.org" },
-]
 readme = "README.md"
-license = "MIT"
-license-files = ["LICENSE"]
-keywords = ["python", "django", "template", "web", "framework"]
-# see also:: https://pypi.org/classifiers
+keywords = ["python", "django", "dyvo", "web", "framework"]
 classifiers = [
     "Framework :: Django",
     "Framework :: Django :: 5",
@@ -21,6 +15,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Programming Language :: Python :: Implementation :: CPython",
     "Topic :: Software Development",
     "Topic :: Software Development :: Version Control :: Git",
@@ -34,6 +29,7 @@ dependencies = [
 dev = [
     "pytest-django",
     "black>=25.9.0",
+    "docker>=7.1.0",
 ]
 
 [project.urls]

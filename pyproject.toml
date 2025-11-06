@@ -1,0 +1,35 @@
+[project]
+name = "dyvo"
+dynamic = ["version"]
+description = "Project, that will change the way we travel"
+requires-python = ">= 3.10"
+readme = "README.md"
+keywords = ["python", "django", "dyvo", "web", "framework"]
+classifiers = [
+    "Framework :: Django",
+    "Framework :: Django :: 5",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Software Development",
+    "Topic :: Software Development :: Version Control :: Git",
+]
+dependencies = [
+    "django>=5.2.7",
+    "psycopg[binary]",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest-django",
+    "black>=25.9.0",
+    "docker>=7.1.0",
+]
+
+[project.urls]

@@ -25,3 +25,4 @@
 ## Code Quality
 
 * **black** — tool for automatic Python code formatting.
+* **pytest** — testing framework for writing and running tests.

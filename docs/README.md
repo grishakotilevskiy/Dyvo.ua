@@ -393,6 +393,7 @@ pytest src/tests/test_example.py
 │   └── postgres/             # PostgreSQL initialization scripts
 ├── docs/                     # Docker container configurations
 │   ├── README.md             # This file
+│   ├── LEGAL.md              # Information about licenses
 │   └── TECH_STACK.md/        # Project tech stack documentation
 ├── src/                      # Django project source
 │   ├── manage.py             # Django management script

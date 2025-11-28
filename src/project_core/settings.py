@@ -21,7 +21,7 @@ if os.name == 'nt':
     # 2. Explicitly point to the GDAL DLL
     GDAL_LIBRARY_PATH = os.path.join(OSGEO4W_ROOT, "bin", "gdal311.dll")
 
-    # 3. Explicitly point to the GEOS DLL (You will likely need this next)
+    # 3. Explicitly point to the GEOS DLL
     GEOS_LIBRARY_PATH = os.path.join(OSGEO4W_ROOT, "bin", "geos_c.dll")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

@@ -57,6 +57,7 @@ pip install uv
 Then create a virtual environment and install dependencies:
 
 ```shell
+
 uv venv
 source .venv/bin/activate  # On macOS/Linux
 # or
@@ -102,6 +103,38 @@ psycopg
 implementation of the Python DB API 2.0 specifications with async support and
 improved performance. The `psycopg[binary]` package includes pre-compiled
 binaries suitable for development.
+
+### Geospatial Dependencies Setup (GDAL/GEOS)
+
+This project uses GeoDjango, which requires system-level C++ libraries (GDAL, GEOS, PROJ) to handle spatial data. These cannot be installed via pip or uv alone; they must be installed on your operating system first.
+
+#### Linux (Debian/Ubuntu/WSL2)
+Run the following commands to install the required binaries:
+
+```shell
+sudo apt-get update
+sudo apt-get install -y binutils libproj-dev gdal-bin
+```
+
+
+#### Windows Installing GDAL on Windows requires an external installer because pip/uv cannot compile the C++ libraries natively.
+
+Download OSGeo4W: Visit the OSGeo4W website and download the "Network Installer".
+
+Install:
+
+Run the installer and select Express Install.
+
+Select QGIS LTR (this ensures compatible versions of GDAL, GEOS, and PROJ are installed together).
+
+#### "Permission denied to create extension 'postgis'"
+
+Django cannot enable PostGIS automatically if the DB user is not a superuser.
+
+Fix: Run this manually in your terminal once:
+```shell
+docker exec -it postgres psql -U postgres -d django -c "CREATE EXTENSION IF NOT EXISTS postgis;"
+````
 
 ## Django Project Structure
 

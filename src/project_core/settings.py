@@ -11,6 +11,18 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+
+# ONLY for Windows
+if os.name == 'nt':
+    # 1. Define the base path to your OSGeo4W installation
+    OSGEO4W_ROOT = Path.home().joinpath(r"AppData\Local\Programs\OSGeo4W")
+
+    # 2. Explicitly point to the GDAL DLL
+    GDAL_LIBRARY_PATH = os.path.join(OSGEO4W_ROOT, "bin", "gdal311.dll")
+
+    # 3. Explicitly point to the GEOS DLL (You will likely need this next)
+    GEOS_LIBRARY_PATH = os.path.join(OSGEO4W_ROOT, "bin", "geos_c.dll")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,7 +49,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.gis",
+    "users",
 ]
+
+AUTH_USER_MODEL = "users.CustomUser"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -74,7 +90,7 @@ WSGI_APPLICATION = "project_core.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
         "HOST": "localhost",
         "PORT": "5432",
         "NAME": "django",

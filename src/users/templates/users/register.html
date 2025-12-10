@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿{% load static %}
+<!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
@@ -6,235 +7,125 @@
     <title>Реєстрація</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #49111c;
-        }
-        .registration-container {
-            max-width: 500px;
-            margin: 50px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 20px 20px 0 rgba(36, 25, 9, 0.6);
-        }
-        .form-label {
-            font-weight: 500;
-        }
-        .error-message {
-            color: #dc3545;
-            font-size: 0.875em;
-            margin-top: 0.25rem;
-            display: none;
-        }
-        .tooltip-icon {
-            cursor: pointer;
-            color: #0d6efd;
-            margin-left: 5px;
-        }
-        .required-star {
-            color: red;
-        }
-        .btn-lg {
-            background-color: #49111c;
-        }
-        .btn-lg:hover {
-            background-color: rgb(36, 25, 9);
-            transition: all 0.3s ease;
-        }
-    </style>
+    <!-- Custom Auth CSS -->
+    <link href="{% static 'users/css/auth.css' %}" rel="stylesheet">
 </head>
 <body>
 
-<div class="container">
-    <div class="registration-container">
-        <h2 class="mb-4 text-center">Реєстрація</h2>
+<div class="auth-container">
+    <h2>Знайди своє Dyvo!</h2>
 
-        <form method="post" id="registrationForm" novalidate>
-            {% csrf_token %}
+    <form method="post" id="registrationForm" novalidate>
+        {% csrf_token %}
 
-            <!-- Email Field -->
-            <div class="mb-3">
-                <label for="{{ form.email.id_for_label }}" class="form-label">
-                    Електронна адреса<span class="required-star">*</span>
-                </label>
-                {{ form.email }}
-                <div class="error-message" id="emailError">Введіть коректну електронну адресу.</div>
-                {% if form.email.errors %}
-                    <div class="text-danger small">{{ form.email.errors.0 }}</div>
-                {% endif %}
-            </div>
+        <!-- Email Field -->
+        <div class="mb-3">
+            <label for="{{ form.email.id_for_label }}" class="form-label">
+                Електронна адреса<span class="required-star">*</span>
+            </label>
+            {{ form.email }}
+            <div class="error-message" id="emailError">Введіть коректну електронну адресу.</div>
+            {% if form.email.errors %}
+                <div class="text-danger small mt-1">{{ form.email.errors.0 }}</div>
+            {% endif %}
+        </div>
 
-            <!-- Password Field -->
-            <div class="mb-3">
-                <label for="{{ form.password.id_for_label }}" class="form-label">
-                    Пароль<span class="required-star">*</span>
-                </label>
-                {{ form.password }}
-                <div class="error-message" id="passwordErrorLength">Пароль має містити мінімум 8 символів.</div>
-                <div class="error-message" id="passwordErrorSpecial">Пароль не має містити спеціальні символи.</div>
-                <div class="error-message" id="passwordErrorLatin">Пароль має бути написаний латинськими літерами та містити цифри.</div>
-                {% if form.password.errors %}
-                    <div class="text-danger small">{{ form.password.errors.0 }}</div>
-                {% endif %}
-            </div>
+        <!-- Password Field -->
+        <div class="mb-3">
+            <label for="{{ form.password.id_for_label }}" class="form-label">
+                Пароль<span class="required-star">*</span>
+            </label>
+            {{ form.password }}
+            <div class="error-message" id="passwordErrorLength">Пароль має містити мінімум 8 символів.</div>
+            <div class="error-message" id="passwordErrorSpecial">Пароль не має містити спеціальні символи.</div>
+            <div class="error-message" id="passwordErrorLatin">Пароль має бути написаний латинськими літерами та містити цифри.</div>
+            {% if form.password.errors %}
+                <div class="text-danger small mt-1">{{ form.password.errors.0 }}</div>
+            {% endif %}
+        </div>
 
-            <!-- Confirm Password Field -->
-            <div class="mb-3">
-                <label for="{{ form.confirm_password.id_for_label }}" class="form-label">
-                    Підтвердьте пароль<span class="required-star">*</span>
-                </label>
-                {{ form.confirm_password }}
-                <div class="error-message" id="confirmError">Паролі не співпадають.</div>
-                {% if form.confirm_password.errors %}
-                    <div class="text-danger small">{{ form.confirm_password.errors.0 }}</div>
-                {% endif %}
-            </div>
+        <!-- Confirm Password Field -->
+        <div class="mb-3">
+            <label for="{{ form.confirm_password.id_for_label }}" class="form-label">
+                Підтвердьте пароль<span class="required-star">*</span>
+            </label>
+            {{ form.confirm_password }}
+            <div class="error-message" id="confirmError">Паролі не співпадають.</div>
+            {% if form.confirm_password.errors %}
+                <div class="text-danger small mt-1">{{ form.confirm_password.errors.0 }}</div>
+            {% endif %}
+        </div>
 
-            <!-- Name Field -->
-            <div class="mb-3">
-                <label for="{{ form.first_name.id_for_label }}" class="form-label">
-                    Введіть ім'я<span class="required-star">*</span>
-                </label>
-                {{ form.first_name }}
-                <div class="error-message" id="nameError">Тільки латинські літери та дефіс.</div>
-                {% if form.first_name.errors %}
-                    <div class="text-danger small">{{ form.first_name.errors.0 }}</div>
-                {% endif %}
-            </div>
+        <!-- Name Field -->
+        <div class="mb-3">
+            <label for="{{ form.first_name.id_for_label }}" class="form-label">
+                Введіть ім'я<span class="required-star">*</span>
+            </label>
+            {{ form.first_name }}
+            <div class="error-message" id="nameError">Тільки латинські літери та дефіс.</div>
+            {% if form.first_name.errors %}
+                <div class="text-danger small mt-1">{{ form.first_name.errors.0 }}</div>
+            {% endif %}
+        </div>
 
-            <!-- Region Dropdown -->
-            <div class="mb-3">
-                <label for="{{ form.region.id_for_label }}" class="form-label">
-                    З якої ви області?
-                </label>
+        <!-- SEARCHABLE REGION DROPDOWN -->
+        <div class="mb-3">
+            <label for="regionInput" class="form-label">
+                З якої ви області?
+            </label>
+            <div class="dropdown-wrapper" id="regionWrapper">
                 {{ form.region }}
+                <ul class="custom-dropdown-list" id="regionList">
+                    {% for value, label in form.fields.region.choices %}
+                        {% if value %}
+                            <li>{{ label }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
             </div>
+            {% if form.region.errors %}
+                <div class="text-danger small mt-1">{{ form.region.errors.0 }}</div>
+            {% endif %}
+        </div>
 
-            <!-- Info Block -->
-            <div class="mb-3">
-                <label class="form-label">
-                    Чому ми це запитуємо?
-                    <span class="tooltip-icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Це допоможе нам миттєво знаходити для вас найактуальніші заняття, тури та враження, які доступні саме у вашому регіоні. Жодного нерелевантного спаму – лише те, що поруч!
-">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
-                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
-                        </svg>
-                    </span>
-                </label>
-                <input type="text" class="form-control" disabled placeholder="Інформація про збір даних" value="Для статистики...">
-            </div>
+        <!-- Info Block: Tooltip LEFT of text -->
+        <div class="mb-3">
+            <label class="form-label info-label">
+                <span class="tooltip-icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Це допоможе нам миттєво знаходити для вас найактуальніші заняття, тури та враження, які доступні саме у вашому регіоні. Жодного нерелевантного спаму – лише те, що поруч!">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
+                    </svg>
+                </span>
+                Чому ми це запитуємо?
+            </label>
+        </div>
 
-            <!-- Terms Checkbox -->
-            <div class="mb-3 form-check">
-                {{ form.terms_confirmed }}
-                <label class="form-check-label" for="{{ form.terms_confirmed.id_for_label }}">
-                    Натискаючи ви погоджуєтеся з <a href="#" target="_blank">правилами сайту</a>
-                </label>
-                {% if form.terms_confirmed.errors %}
-                    <div class="text-danger small">{{ form.terms_confirmed.errors.0 }}</div>
-                {% endif %}
-            </div>
+        <!-- Terms Checkbox -->
+        <div class="mb-3 form-check">
+            {{ form.terms_confirmed }}
+            <label class="form-check-label" for="{{ form.terms_confirmed.id_for_label }}">
+                Натискаючи ви погоджуєтеся з <a href="{% url 'terms' %}" target="_blank">правилами сайту</a>
+            </label>
+            {% if form.terms_confirmed.errors %}
+                <div class="text-danger small mt-1">{{ form.terms_confirmed.errors.0 }}</div>
+            {% endif %}
+        </div>
 
-            <!-- Submit Button -->
-            <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-primary btn-lg">Завершити</button>
-            </div>
-        </form>
-    </div>
+        <!-- Submit Button -->
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary btn-lg">Завершити</button>
+        </div>
+
+        <div class="bottom-link">
+            <a href="{% url 'login' %}" class="auth-link">В мене вже є аккаунт</a>
+        </div>
+    </form>
 </div>
 
-<!-- Bootstrap Bundle JS -->
+<!-- Bootstrap-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Custom Validation Script -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Initialize tooltips
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
-
-        const form = document.getElementById('registrationForm');
-
-        // Fields
-        const emailInput = document.getElementById('id_email');
-        const passwordInput = document.getElementById('id_password');
-        const confirmInput = document.getElementById('id_confirm_password');
-        const nameInput = document.getElementById('id_first_name');
-
-        // Validation Logic
-        function validateEmail() {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            const errorDiv = document.getElementById('emailError');
-            if (!re.test(emailInput.value) && emailInput.value !== '') {
-                emailInput.classList.add('is-invalid');
-                errorDiv.style.display = 'block';
-            } else {
-                emailInput.classList.remove('is-invalid');
-                errorDiv.style.display = 'none';
-            }
-        }
-
-        function validatePassword() {
-            const val = passwordInput.value;
-            // 1. Min length 8
-            const lenCheck = val.length >= 8;
-            document.getElementById('passwordErrorLength').style.display = lenCheck || val === '' ? 'none' : 'block';
-
-            // 2. No special symbols (only latin + digits)
-            const specialCheck = /^[a-zA-Z0-9]*$/.test(val);
-            document.getElementById('passwordErrorSpecial').style.display = specialCheck ? 'none' : 'block';
-
-            // 3. Must have letters AND digits
-            const hasLetters = /[a-zA-Z]/.test(val);
-            const hasDigits = /[0-9]/.test(val);
-            const latinCheck = hasLetters && hasDigits;
-            // Combining logic for the "Latin letters" error message which seems to cover structure
-            document.getElementById('passwordErrorLatin').style.display = (latinCheck || val === '') ? 'none' : 'block';
-
-            if (lenCheck && specialCheck && latinCheck) {
-                passwordInput.classList.remove('is-invalid');
-            } else if (val !== '') {
-                passwordInput.classList.add('is-invalid');
-            }
-        }
-
-        function validateConfirm() {
-            const errorDiv = document.getElementById('confirmError');
-            if (confirmInput.value !== passwordInput.value && confirmInput.value !== '') {
-                confirmInput.classList.add('is-invalid');
-                errorDiv.style.display = 'block';
-            } else {
-                confirmInput.classList.remove('is-invalid');
-                errorDiv.style.display = 'none';
-            }
-        }
-
-        function validateName() {
-            const re = /^[a-zA-Z\-]+$/; // Latin and hyphen only
-            const errorDiv = document.getElementById('nameError');
-            if (!re.test(nameInput.value) && nameInput.value !== '') {
-                nameInput.classList.add('is-invalid');
-                errorDiv.style.display = 'block';
-            } else {
-                nameInput.classList.remove('is-invalid');
-                errorDiv.style.display = 'none';
-            }
-        }
-
-        // Attach "blur" events (when focus leaves the field)
-        emailInput.addEventListener('blur', validateEmail);
-        passwordInput.addEventListener('blur', validatePassword);
-        // Also re-validate confirm on password blur to ensure consistency
-        passwordInput.addEventListener('input', function() {
-            if(confirmInput.value !== '') validateConfirm();
-        });
-        confirmInput.addEventListener('blur', validateConfirm);
-        nameInput.addEventListener('blur', validateName);
-    });
-</script>
+<!-- Custom auth JS -->
+<script src="{% static 'users/js/register.js' %}"></script>
 
 </body>
 </html>

@@ -1,0 +1,197 @@
+﻿/* Global body style */
+body {
+    background-color: #49111c;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Container for login/register */
+.auth-container {
+    width: 100%;
+    max-width: 500px;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 20px 20px 0 rgba(36, 25, 9, 0.6);
+}
+
+h2 {
+    font-weight: 700;
+    color: #49111c;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    font-weight: 500;
+}
+
+/* --- Custom inputs styles --- */
+.form-control, .form-select {
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 12px 15px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: #fcfcfc;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #49111c;
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(73, 17, 28, 0.15);
+    outline: none;
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 0.875em;
+    margin-top: 0.25rem;
+    display: none;
+}
+
+/* --- Button styles --- */
+.btn-lg {
+    background-color: #49111c;
+    border-color: #49111c;
+    color: white;
+}
+
+.btn-lg:hover {
+    background-color: #241909;
+    border-color: #241909;
+    transition: all 0.3s ease;
+    color: white;
+}
+
+/* STRICT OVERRIDE for active/focus states */
+.btn-check:focus+.btn-primary, .btn-primary:focus,
+.btn-primary:active:focus, .btn-primary:active, .btn-lg:active, .btn-lg:focus {
+    background-color: #1a1207 !important;
+    border-color: #1a1207 !important;
+    color: white !important;
+    box-shadow: 0 0 0 0.25rem rgba(73, 17, 28, 0.4) !important;
+}
+
+/* --- Checkboxes --- */
+.form-check-input:checked {
+    background-color: #49111c;
+    border-color: #49111c;
+}
+
+.form-check-input:focus {
+    box-shadow: none;
+    border-color: #49111c;
+}
+
+/* Shared link style */
+.auth-link, .form-check-label a {
+    color: #49111c;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.bottom-link:hover, .form-check-label a:hover {
+    color: #241909;
+}
+
+.bottom-link {
+    text-align: center;
+    margin-top: 20px;
+    font-weight: 500;
+}
+
+.bottom-link a {
+    color: #49111c;
+    text-decoration: underline;
+}
+
+.bottom-link a:hover {
+    color: #241909;
+}
+
+/* --- REGISTRATION SPECIFIC: tooltip --- */
+.info-label {
+    display: flex;
+    align-items: center;
+}
+
+/* Tooltip icon style */
+.tooltip-icon {
+    cursor: pointer;
+    color: #49111c;
+    margin-right: 8px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    min-width: 16px;
+    min-height: 16px;
+    line-height: 1;
+    vertical-align: top;
+    margin-top: calc((1.5em - 16px) / 2);
+}
+
+.tooltip-icon:hover {
+    opacity: 1;
+}
+
+.required-star {
+    color: red;
+    margin-left: 3px;
+}
+
+/* --- REGISTRATION SPECIFIC: searchable dropdown --- */
+.dropdown-wrapper {
+    position: relative;
+}
+
+.custom-dropdown-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1050;
+    display: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.custom-dropdown-list li {
+    padding: 10px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.custom-dropdown-list li:last-child {
+    border-bottom: none;
+}
+
+.custom-dropdown-list li:hover {
+    background-color: #f8f9fa;
+    color: #49111c;
+}
+
+.dropdown-wrapper.active .custom-dropdown-list {
+    display: block;
+}
+
+.dropdown-wrapper.active .form-control {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}

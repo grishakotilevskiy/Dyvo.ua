@@ -1,0 +1,121 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Головна - Dyvo</title>
+
+    <!-- Google Fonts: Nunito -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Reuse Auth CSS for consistency -->
+    <link href="{% static 'users/css/auth.css' %}" rel="stylesheet">
+
+    <style>
+        .profile-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 20px 20px 0 rgba(36, 25, 9, 0.6);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+
+        }
+
+        .avatar-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #49111c;
+            margin-bottom: 20px;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+        .user-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .user-email {
+            color: #666;
+            margin-bottom: 25px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+
+    {% if user.is_authenticated %}
+        <div class="profile-card">
+            <h2 class="mb-3">Мій кабінет</h2>
+            <!-- Avatar section -->
+            {% if user.avatar %}
+                <img src="{{ user.avatar.url }}" alt="{{ user.first_name }}" class="avatar-img">
+            {% else %}
+                <!-- Placeholder if no avatar -->
+                <div class="avatar-img d-flex align-items-center justify-content-center bg-light text-secondary fs-1 mx-auto">
+                    {{ user.first_name|first|upper }}
+                </div>
+            {% endif %}
+
+            <!-- Role -->
+            {% if user.is_host %}
+                <p><span class="role-badge">Хост</span></p>
+            {% else %}
+                <p><span class="role-badge">Гість</span></p>
+            {% endif %}
+
+            <!-- User info -->
+            <h1 class="user-name">Привіт, {{ user.first_name }}!</h1>
+            <p class="user-email">{{ user.email }}</p>
+
+            <!-- Actions -->
+            <div class="d-grid gap-2">
+                {% if user.is_host %}
+                    <a href="#" class="btn btn-lg">Створити Враження</a>
+                {% else %}
+                    <a href="#" class="btn btn-lg">Знайти Враження</a>
+                {% endif %}
+                <a href="{% url 'logout' %}" class="btn btn-outline-danger mt-2">Вийти</a>
+            </div>
+        </div>
+    {% else %}
+        <!-- Unauthorized users block -->
+        <div class="profile-card">
+            <h1>Ласкаво просимо в Dyvo!</h1>
+            <p class="mb-4">Знайди своє незабутнє враження або стань партнером.</p>
+            <div class="d-grid gap-2">
+                <a href="{% url 'login' %}" class="btn btn-lg">Увійти</a>
+                <a href="{% url 'register' %}" class="btn btn-outline-secondary">Реєстрація</a>
+                <a href="{% url 'host_register' %}" class="btn btn-outline-secondary">Стати хостом</a>
+            </div>
+        </div>
+    {% endif %}
+
+</div>
+
+<!-- Bootstrap Bundle JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

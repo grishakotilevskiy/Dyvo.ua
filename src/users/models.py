@@ -17,12 +17,6 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('is_active', True)
-
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError(_('Superuser must have is_staff=True.'))
-        if extra_fields.get('is_superuser') is not True:
-            raise ValueError(_('Superuser must have is_superuser=True.'))
-
         return self.create_user(email, password, **extra_fields)
 
 
@@ -32,6 +26,20 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     # srid=4326 is the standard for GPS coordinates (WGS 84)
     location = gis_models.PointField(srid=4326, blank=True, null=True)
+
+    # host specific fields
+    is_host = gis_models.BooleanField(default=False, verbose_name="is host account")
+    phone_number = gis_models.CharField(_("phone number"), max_length=20, blank=True, null=True)
+
+    avatar = gis_models.ImageField(upload_to="avatars/", blank=True, null=True, verbose_name="avatar")
+
+    # Socials
+    contacts = gis_models.TextField(_("contacts"), blank=True, null=True)
+    instagram = gis_models.CharField(max_length=50, blank=True, null=True)
+    facebook = gis_models.CharField(max_length=50, blank=True, null=True)
+
+    # Bio
+    about = gis_models.TextField(_("about"), blank=True, null=True)
 
     # Required for Admin/Auth
     is_staff = gis_models.BooleanField(default=False)

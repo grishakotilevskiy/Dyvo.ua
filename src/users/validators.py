@@ -29,3 +29,18 @@ class CustomRequirementsValidator:
         return _(
             "Ваш пароль має містити тільки латинські літери та цифри (мінімум одну літеру та одну цифру)."
         )
+
+# Validator for names
+def validate_latin_only(value):
+    if not re.match(r"^[a-zA-Z\s-]+$", value):
+        raise ValidationError(_("Ім'я може містити тільки латинські літери та дефіс."))
+
+# Validator for email
+def validate_email(value):
+    if not re.match(r"^[\w\.-]+@[\w\.-]+\.\w+$", value):
+        raise ValidationError("Введіть коректну електронну адресу.")
+
+# Validator for phone length
+def validate_phone(value):
+    if not (re.match(r"^[0-9]+$", value) and (len(value) == 10)):
+        raise ValidationError("Введіть коректний номер.")

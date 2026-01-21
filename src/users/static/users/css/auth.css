@@ -1,4 +1,9 @@
-﻿/* Global body style */
+﻿/* Override bootstrap font with custom */
+:root {
+  --bs-body-font-family: 'Nunito', sans-serif;
+}
+
+/* Global body style */
 body {
     background-color: #49111c;
     min-height: 100vh;
@@ -6,7 +11,7 @@ body {
     align-items: center;
     justify-content: center;
     padding: 20px;
-    font-family: system-ui, -apple-system, sans-serif;
+    font-family: 'Nunito', sans-serif;
 }
 
 /* Container for login/register */
@@ -15,7 +20,7 @@ body {
     max-width: 500px;
     background: white;
     padding: 30px;
-    border-radius: 10px;
+    border-radius: 20px;
     box-shadow: 20px 20px 0 rgba(36, 25, 9, 0.6);
 }
 
@@ -24,6 +29,14 @@ h2 {
     color: #49111c;
     text-align: center;
     margin-bottom: 1.5rem;
+}
+
+.text-hint {
+    color: #41111c;
+}
+
+.text-secondary {
+    color: #41111c;
 }
 
 .form-label {

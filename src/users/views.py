@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
-from .forms import RegistrationForm
+from django.contrib.auth import login, logout
+from .forms import RegistrationForm, HostRegistrationForm, LoginForm
 
 
 def register_view(request):
@@ -11,7 +11,7 @@ def register_view(request):
             user.set_password(form.cleaned_data["password"])
             user.save()
             login(request, user)
-            return redirect("home")
+            return redirect("main_page")
     else:
         form = RegistrationForm()
 
@@ -23,5 +23,33 @@ def terms_view(request):
 
 
 def login_view(request):
-    return render(request, template_name="users/login.html")
+    if request.method == "POST":
+        form = LoginForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect("main_page")
+    else:
+        form = LoginForm()
 
+    return render(request, template_name="users/login.html", context={"form": form})
+
+def mainpage_view(request):
+    return render(request, template_name="users/main_page.html")
+
+
+def host_register_view(request):
+    if request.method == 'POST':
+        form = HostRegistrationForm(request.POST, request.FILES)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('main_page')
+    else:
+        form = HostRegistrationForm()
+
+    return render(request, 'users/host_register.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')

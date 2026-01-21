@@ -2,7 +2,9 @@
 from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Point
 from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import AuthenticationForm
 import re
+from .validators import validate_latin_only, validate_email, validate_phone
 
 User = get_user_model()
 
@@ -67,80 +69,79 @@ class RegistrationForm(forms.ModelForm):
         choices=REGION_CHOICES,
         required=False,
         widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Оберіть область',
-            'autocomplete': 'off',
-            'id': 'regionInput'
+            "class": "form-control",
+            "placeholder": "Оберіть область",
+            "autocomplete": "off",
+            "id": "regionInput"
         }),
-        label='З якої ви області?'
+        label="З якої ви області?"
     )
 
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={
-            'placeholder': 'Придумайте надійний пароль',
-            'class': 'form-control',
-            'id': 'id_password'
+            "placeholder": "Придумайте надійний пароль",
+            "class": "form-control",
+            "id": "id_password"
         }),
         label="Пароль",
-        error_messages={'required': "Будь ласка, введіть пароль."}
+        error_messages={"required": "Будь ласка, введіть пароль."}
     )
     confirm_password = forms.CharField(
         widget=forms.PasswordInput(attrs={
-            'placeholder': 'Введіть пароль ще раз',
-            'class': 'form-control',
-            'id': 'id_confirm_password'
+            "placeholder": "Введіть пароль ще раз",
+            "class": "form-control",
+            "id": "id_confirm_password"
         }),
         label="Підтвердьте пароль",
-        error_messages={'required': "Будь ласка, підтвердіть пароль."}
+        error_messages={"required": "Будь ласка, підтвердіть пароль."}
     )
     terms_confirmed = forms.BooleanField(
         required=True,
-        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        widget=forms.CheckboxInput(attrs={"class": "form-check-input"}),
         label="Згода з правилами",
-        error_messages={'required': "Ви повинні погодитися з правилами сайту."}
+        error_messages={"required": "Ви повинні погодитися з правилами сайту."}
     )
 
     class Meta:
         model = User
-        fields = ['email', 'first_name']
+        fields = ["email", "first_name"]
         widgets = {
-            'email': forms.EmailInput(attrs={
-                'placeholder': 'emailaddress@gmail.com',
-                'class': 'form-control'
+            "email": forms.EmailInput(attrs={
+                "placeholder": "emailaddress@gmail.com",
+                "class": "form-control"
             }),
-            'first_name': forms.TextInput(attrs={
-                'placeholder': 'Введіть ваше ім\'я',
-                'class': 'form-control'
+            "first_name": forms.TextInput(attrs={
+                "placeholder": "Введіть ваше ім'я",
+                "class": "form-control"
             }),
         }
         labels = {
-            'email': 'Електронна адреса',
-            'first_name': "Введіть ім'я",
+            "email": "Електронна адреса",
+            "first_name": "Введіть ім'я",
         }
         error_messages = {
-            'email': {
-                'required': "Введіть електронну адресу.",
-                'invalid': "Введіть коректну електронну адресу."
+            "email": {
+                "required": "Введіть електронну адресу.",
+                "invalid": "Введіть коректну електронну адресу."
             },
-            'first_name': {
-                'required': "Введіть ваше ім'я."
+            "first_name": {
+                "required": "Введіть ваше ім'я."
             }
         }
 
     def clean_email(self):
-        email = self.cleaned_data.get('email')
+        email = self.cleaned_data.get("email")
         if User.objects.filter(email=email).exists():
             raise ValidationError("Ця електронна адреса вже зареєстрована.")
         return email
 
     def clean_first_name(self):
-        first_name = self.cleaned_data.get('first_name')
-        if not re.match(r'^[a-zA-Z\-]+$', first_name):
-            raise ValidationError("Ім'я може містити тільки латинські літери та дефіс.")
+        first_name = self.cleaned_data.get("first_name")
+        validate_latin_only(first_name)
         return first_name
 
     def clean_password(self):
-        password = self.cleaned_data.get('password')
+        password = self.cleaned_data.get("password")
         if len(password) < 8:
             raise ValidationError("Пароль має містити мінімум 8 символів.")
         if not re.match(r'^[a-zA-Z0-9]+$', password):
@@ -152,7 +153,7 @@ class RegistrationForm(forms.ModelForm):
         return password
 
     def clean_region(self):
-        region = self.cleaned_data.get('region')
+        region = self.cleaned_data.get("region")
         if region:
             valid_regions = [choice[0] for choice in self.REGION_CHOICES]
             if region not in valid_regions:
@@ -165,11 +166,11 @@ class RegistrationForm(forms.ModelForm):
         confirm_password = cleaned_data.get("confirm_password")
 
         if password and confirm_password and password != confirm_password:
-            self.add_error('confirm_password', "Паролі не співпадають.")
+            self.add_error("confirm_password", "Паролі не співпадають.")
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        region_name = self.cleaned_data.get('region')
+        region_name = self.cleaned_data.get("region")
 
         if region_name and region_name in self.REGION_COORDINATES:
             lng, lat = self.REGION_COORDINATES[region_name]
@@ -181,3 +182,135 @@ class RegistrationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+class HostRegistrationForm(RegistrationForm):
+
+    # override guest fields with specific labels/placeholders
+    email = forms.EmailField(
+        label="Електронна адреса",
+        validators=[validate_email],
+        widget=forms.EmailInput(attrs={
+            "placeholder": "emailaddress@gmail.com",
+            "class": "form-control",
+            "id": "id_email"
+        })
+    )
+
+    first_name = forms.CharField(
+        label="Як до Вас звертатися?",
+        validators=[validate_latin_only],
+        widget=forms.TextInput(attrs={
+            "placeholder": "Ваше ім'я та прізвище",
+            "class": "form-control",
+            "id": "id_first_name"
+        })
+    )
+
+    region = forms.ChoiceField(
+        choices=RegistrationForm.REGION_CHOICES,
+        required=True,
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "placeholder": "Оберіть зі списку",
+            "autocomplete": "off",
+            "id": "regionInput"
+        }),
+        label="Ваше місце проживання"
+    )
+
+    phone_number = forms.CharField(
+        label="Ваш номер телефону",
+        required=True,
+        validators=[validate_phone],
+        widget=forms.TextInput(attrs={
+            "placeholder": "+380 _ _  _ _ _  _ _  _ _",
+            "class": "form-control"
+        })
+    )
+
+    avatar = forms.ImageField(
+        label="Додайте Ваше найкраще фото",
+        required=True,
+        widget=forms.FileInput(attrs={"class": "form-control"})
+    )
+
+    contacts = forms.CharField(
+        label="Вкажіть контактну інформацію",
+        required=True,
+        widget=forms.TextInput(attrs={
+            "placeholder": "Вкажіть контактну інформацію",
+            "class": "form-control mb-2"
+        })
+    )
+
+    instagram = forms.CharField(
+        label="Ваш Instagram",
+        required=False,
+        widget=forms.TextInput(attrs={
+            "placeholder": "Ваш Instagram",
+            "class": "form-control"
+        })
+    )
+
+    facebook = forms.CharField(
+        label="Ваш Facebook",
+        required=False,
+        widget=forms.TextInput(attrs={
+            "placeholder": "Ваш Facebook",
+            "class": "form-control"
+        })
+    )
+
+    about = forms.CharField(
+        label="Розкажіть гостям про себе, щоб підняти довіру до вас",
+        required=False,
+        widget=forms.Textarea(attrs={
+            "placeholder": "Чим Ви займаєтеся? Яким досвідом хочете поділитися з гостями?",
+            "class": "form-control",
+            "rows": 3
+        }),
+        help_text="Лише 2-3 речення про Вас. Це може допомогти Вам виділити своє враження серед інших."
+    )
+
+    class Meta:
+        model = User
+        fields = ["email", "first_name", "phone_number", "contacts", "instagram", "facebook", "about"]
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+
+        # set host flag
+        user.is_host = True
+        user.is_staff = False
+        user.is_superuser = False
+
+        # save extra fields specific to host
+        user.phone_number = self.cleaned_data.get("phone_number")
+        user.avatar = self.cleaned_data.get("avatar")
+        user.contacts = self.cleaned_data.get("contacts")
+        user.instagram = self.cleaned_data.get("instagram")
+        user.facebook = self.cleaned_data.get("facebook")
+        user.about = self.cleaned_data.get("about")
+
+        if commit:
+            user.save()
+        return user
+
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(
+        label="Електронна адреса",
+        widget=forms.EmailInput(attrs={
+            "class": "form-control",
+            "placeholder": "emailaddress@gmail.com",
+            "id": "id_email",
+            "autofocus": True
+        })
+    )
+    password = forms.CharField(
+        label="Пароль",
+        widget=forms.PasswordInput(attrs={
+            "class": "form-control",
+            "placeholder": "Ваш пароль",
+            "id": "id_password"
+        })
+    )

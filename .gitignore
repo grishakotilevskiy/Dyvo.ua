@@ -97,3 +97,6 @@ __pypackages__/
 
 # Shell scripts
 *.ps1
+
+# Uploaded files
+src/media/

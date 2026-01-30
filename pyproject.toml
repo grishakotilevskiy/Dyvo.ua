@@ -30,6 +30,7 @@ dev = [
     "pytest-django",
     "black>=25.9.0",
     "docker>=7.1.0",
+    "Pillow"
 ]
 
 [project.urls]

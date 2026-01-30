@@ -11,12 +11,11 @@ def register_view(request):
             user.set_password(form.cleaned_data["password"])
             user.save()
             login(request, user)
-            return redirect("main_page")
+            return redirect("users:main_page")
     else:
         form = RegistrationForm()
 
     return render(request, template_name="users/register.html", context={"form": form})
-
 
 def terms_view(request):
     return render(request, template_name="users/terms.html")
@@ -28,7 +27,7 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect("main_page")
+            return redirect("users:main_page")
     else:
         form = LoginForm()
 
@@ -44,7 +43,7 @@ def host_register_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('main_page')
+            return redirect('users:main_page')
     else:
         form = HostRegistrationForm()
 
@@ -52,4 +51,4 @@ def host_register_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('login')
+    return redirect('users:login')

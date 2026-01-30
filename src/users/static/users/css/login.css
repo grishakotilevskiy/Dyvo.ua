@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #49111C;
+}
+
+.login-container {
+    position: relative;
+    width: 444px;
+    padding: 40px 64px 50px;
+    background: #FBFFFE;
+    border: 8px solid #49111C;
+    box-shadow: 20px 20px 3px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+}
+
+.login-title {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 29px;
+    color: #49111C;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.login-subtitle {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: #241909;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-subtitle a {
+    color: #49111C;
+    text-decoration: underline;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #241909;
+    margin-bottom: 8px;
+}
+
+.required-asterisk {
+    color: #49111C;
+    font-weight: bold;
+}
+
+.form-input {
+    width: 100%;
+    height: 35px;
+    padding: 9px 16px;
+    background: #FFFFFF;
+    border: 1px solid #241909;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #241909;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.form-input::placeholder {
+    color: rgba(36, 25, 9, 0.6);
+}
+
+.form-input:focus {
+    border-color: #49111C;
+    border-width: 2px;
+}
+
+.forgot-password {
+    display: inline-block;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #49111C;
+    text-decoration: none;
+    margin-bottom: 25px;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.login-button {
+    display: block;
+    width: 156px;
+    height: 42px;
+    margin: 0 auto;
+    background: #49111C;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    color: #FBFFFE;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.login-button:hover {
+    background: #5a1a2a;
+}
+
+.login-button:active {
+    transform: scale(0.98);
+}
+
+.error-message {
+    background: #fee;
+    border: 1px solid #c00;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 20px;
+    color: #c00;
+    font-size: 14px;
+}
+
+.error-message ul {
+    margin: 0;
+    padding-left: 20px;
+}

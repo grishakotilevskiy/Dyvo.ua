@@ -1,4 +1,4 @@
-﻿from django import forms
+from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Point
 from django.core.exceptions import ValidationError

@@ -17,7 +17,6 @@ def register_view(request):
 
     return render(request, template_name="users/register.html", context={"form": form})
 
-
 def terms_view(request):
     return render(request, template_name="users/terms.html")
 

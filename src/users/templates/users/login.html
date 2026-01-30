@@ -1,73 +1,64 @@
-﻿{% load static %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вхід - Dyvo</title>
-
-    <!-- Google Fonts: Nunito -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
-
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom Auth CSS -->
-    <link href="{% static 'users/css/auth.css' %}" rel="stylesheet">
+    <title>Вхід | Dyvo</title>
+    <link rel="stylesheet" href="{% static 'users/css/login.css' %}">
 </head>
 <body>
-
-<div class="auth-container">
-    <h2>Вхід</h2>
-
-    <form method="post" novalidate>
-        {% csrf_token %}
-
-        <!-- General error messages -->
+    <div class="login-container">
+        <h1 class="login-title">Знайди своє Dyvo!</h1>
+        <p class="login-subtitle">Або <a href="{% url 'users:register' %}">створити акаунт</a></p>
+        
         {% if form.non_field_errors %}
-            <div class="alert alert-danger p-2 small">
-                {% for error in form.non_field_errors %}
-                    {{ error }}
-                {% endfor %}
-            </div>
+        <div class="error-message">
+            {{ form.non_field_errors }}
+        </div>
         {% endif %}
-
-        <!-- Email field -->
-        <div class="mb-3">
-            <label for="{{ form.username.id_for_label }}" class="form-label">{{ form.username.label }}</label>
-            {{ form.username }}
-            {% if form.username.errors %}
-                <div class="text-danger small mt-1">{{ form.username.errors.0 }}</div>
-            {% endif %}
-        </div>
-
-        <!-- Password field -->
-        <div class="mb-3">
-            <label for="{{ form.password.id_for_label }}" class="form-label">{{ form.password.label }}</label>
-            {{ form.password }}
-            {% if form.password.errors %}
-                <div class="text-danger small mt-1">{{ form.password.errors.0 }}</div>
-            {% endif %}
-        </div>
-
-        <!-- Submit Button -->
-        <div class="d-grid gap-2 mt-4">
-            <button type="submit" class="btn btn-primary btn-lg">Увійти</button>
-        </div>
-
-        <!-- Links -->
-        <div class="bottom-link">
-            <a href="{% url 'register' %}" class="auth-link">Або створити аккаунт</a>
-        </div>
-        <div class="text-center mt-2">
-            <a href="{% url 'reset_password' %}" class="text-muted small text-decoration-none">Забули пароль?</a>
-        </div>
-    </form>
-</div>
-
-<!-- Bootstrap Bundle JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+        
+        <form method="post" novalidate>
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label class="form-label" for="id_username">
+                    Електронна адреса<span class="required-asterisk">*</span>
+                </label>
+                <input 
+                    type="email" 
+                    name="username" 
+                    id="id_username" 
+                    class="form-input" 
+                    placeholder="example@email.com"
+                    required
+                >
+                {% if form.username.errors %}
+                <div class="error-message">{{ form.username.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="id_password">
+                    Пароль<span class="required-asterisk">*</span>
+                </label>
+                <input 
+                    type="password" 
+                    name="password" 
+                    id="id_password" 
+                    class="form-input" 
+                    placeholder="Введіть пароль"
+                    required
+                >
+                {% if form.password.errors %}
+                <div class="error-message">{{ form.password.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <a href="{% url 'users:reset_password' %}" class="forgot-password">Забули пароль?</a>
+            
+            <button type="submit" class="login-button">Увійти в акаунт</button>
+        </form>
+    </div>
 </body>
 </html>

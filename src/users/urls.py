@@ -2,6 +2,8 @@
 from .views import register_view, terms_view, login_view, account_view, host_register_view, logout_view
 from django.contrib.auth import views as auth_views
 
+app_name = 'users'
+
 urlpatterns = [
     path("register/", register_view, name="register"),
     path("terms/", terms_view, name="terms"),

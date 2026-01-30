@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Головна - Dyvo</title>
+    <title>Ваш аккаунт</title>
 
     <!-- Google Fonts: Nunito -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -92,7 +92,7 @@
             <!-- Actions -->
             <div class="d-grid gap-2">
                 {% if user.is_host %}
-                    <a href="#" class="btn btn-lg">Створити Враження</a>
+                    <a href="{% url 'admin:users_event_add' %}" class="btn btn-lg">Створити Враження</a>
                 {% else %}
                     <a href="#" class="btn btn-lg">Знайти Враження</a>
                 {% endif %}

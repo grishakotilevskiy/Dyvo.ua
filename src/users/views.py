@@ -11,7 +11,7 @@ def register_view(request):
             user.set_password(form.cleaned_data["password"])
             user.save()
             login(request, user)
-            return redirect("users:main_page")
+            return redirect("account")
     else:
         form = RegistrationForm()
 
@@ -27,28 +27,28 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect("users:main_page")
+            return redirect("account")
     else:
         form = LoginForm()
 
     return render(request, template_name="users/login.html", context={"form": form})
 
-def mainpage_view(request):
-    return render(request, template_name="users/main_page.html")
+def account_view(request):
+    return render(request, template_name="users/account.html")
 
 
 def host_register_view(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = HostRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('users:main_page')
+            return redirect("account")
     else:
         form = HostRegistrationForm()
 
-    return render(request, 'users/host_register.html', {'form': form})
+    return render(request, "users/host_register.html", {"form": form})
 
 def logout_view(request):
     logout(request)
-    return redirect('users:login')
+    return redirect("login")

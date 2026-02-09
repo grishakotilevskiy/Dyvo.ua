@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Point
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import Group
 import re
 from .validators import validate_latin_only, validate_email, validate_phone
 
@@ -281,7 +282,7 @@ class HostRegistrationForm(RegistrationForm):
 
         # set host flag
         user.is_host = True
-        user.is_staff = False
+        user.is_staff = True
         user.is_superuser = False
 
         # save extra fields specific to host
@@ -294,6 +295,12 @@ class HostRegistrationForm(RegistrationForm):
 
         if commit:
             user.save()
+            if user.is_host:
+                try:
+                    host_group = Group.objects.get(name='Hosts')
+                    user.groups.add(host_group)
+                except Group.DoesNotExist:
+                    pass
         return user
 
 class LoginForm(AuthenticationForm):

@@ -1,9 +1,6 @@
 ﻿from django.urls import path
-from .views import register_view, terms_view, login_view, account_view, host_register_view, logout_view
+from .views import register_view, terms_view, login_view, account_view, host_register_view, logout_view, event_detail, book_event, my_events
 from django.contrib.auth import views as auth_views
-
-app_name = 'users'
-
 urlpatterns = [
     path("register/", register_view, name="register"),
     path("terms/", terms_view, name="terms"),
@@ -24,10 +21,19 @@ urlpatterns = [
     path("account/",
          account_view,
          name="account"),
-    path('logout/',
+    path("logout/",
          logout_view,
-         name='logout'),
+         name="logout"),
     path("host_register/",
          host_register_view,
          name="host_register"),
+    path("event/<int:pk>/",
+         event_detail,
+         name="event_detail"),
+    path("event/<int:pk>/book/",
+         book_event,
+         name="book_event"),
+    path("my_events/",
+         my_events,
+         name="my_events"),
 ]

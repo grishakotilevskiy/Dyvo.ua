@@ -3,6 +3,7 @@ from django.contrib.gis.db import models as gis_models  # Import GeoDjango model
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
 
 
 class CustomUserManager(BaseUserManager):
@@ -95,6 +96,20 @@ class Event(gis_models.Model):
     # Photo
     photo = gis_models.ImageField(upload_to="event_photos/", verbose_name="Фото *")
 
+    photo_2 = gis_models.ImageField(
+        upload_to="event_photos/",
+        blank=True,
+        null=True,
+        verbose_name="Фото 2 (за бажанням)"
+    )
+
+    photo_3 = gis_models.ImageField(
+        upload_to="event_photos/",
+        blank=True,
+        null=True,
+        verbose_name="Фото 3 (за бажанням)"
+    )
+
     # Additional fields
     ticket_price = gis_models.DecimalField(
         max_digits=10,
@@ -149,3 +164,7 @@ class Event(gis_models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        # This points to the url name 'event_detail'
+        return reverse('event_detail', kwargs={'pk': self.pk})

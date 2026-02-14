@@ -1,6 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout
 from .forms import RegistrationForm, HostRegistrationForm, LoginForm
+from .models import Event
+from django.contrib.auth.decorators import login_required
 
 
 def register_view(request):
@@ -52,3 +54,33 @@ def host_register_view(request):
 def logout_view(request):
     logout(request)
     return redirect("login")
+
+def event_detail(request, pk):
+    # Fetch the event by ID, or 404 if not found
+    event = get_object_or_404(Event, pk=pk)
+    spots_left = event.max_guests - event.guests.count()
+
+    context = {
+        "event": event,
+        "spots_left": spots_left,
+    }
+    return render(request, "users/event_detail.html", context)
+
+@login_required
+def book_event(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+
+    if request.user.is_host:
+        return redirect('event_detail', pk=pk)
+
+    if request.user not in event.guests.all() and event.guests.count() < event.max_guests:
+        event.guests.add(request.user)
+
+    return redirect("event_detail", pk=pk)
+
+
+@login_required
+def my_events(request):
+    events = request.user.attended_events.all()
+
+    return render(request, "users/my_events.html", {"events": events})

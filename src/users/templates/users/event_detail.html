@@ -86,31 +86,70 @@
     <div class="row g-4 mb-5">
 
         <div class="col-lg-8">
-            <div class="row g-2">
-                <div class="col-9">
-                    {% if event.photo %}
-                        <img src="{{ event.photo.url }}" class="img-fluid rounded main-image" alt="{{ event.title }}">
-                    {% else %}
-                        <div class="bg-secondary rounded main-image d-flex align-items-center justify-content-center text-white">No Image</div>
-                    {% endif %}
-                </div>
+            <div class="row g-2 h-100">
 
-                <div class="col-3 d-flex flex-column gap-2">
-                    <div class="overflow-hidden rounded">
-                        {% if event.photo %}<img src="{{ event.photo.url }}" class="small-image opacity-75">{% endif %}
+                {% if event.photo_2 or event.photo_3 %}
+
+                    <div class="col-9">
+                        <img src="{{ event.photo.url }}" class="img-fluid rounded-start main-image w-100" alt="{{ event.title }}" style="border-radius: 1rem 0 0 1rem;">
                     </div>
-                    <div class="overflow-hidden rounded">
-                        {% if event.photo %}<img src="{{ event.photo.url }}" class="small-image opacity-75">{% endif %}
+
+                    <div class="col-3 d-flex flex-column gap-2">
+
+                        {% if event.photo_2 %}
+                            <div class="overflow-hidden h-50" style="border-radius: 0 1rem 0 0;"> <img src="{{ event.photo_2.url }}" class="small-image w-100 h-100" style="object-fit: cover; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#photoModal2">
+                            </div>
+                        {% endif %}
+
+                        {% if event.photo_3 %}
+                            <div class="overflow-hidden {% if not event.photo_2 %}h-100 rounded-end{% else %}h-50{% endif %}"
+                                 style="{% if event.photo_2 %}border-radius: 0 0 1rem 0;{% endif %}">
+                                <img src="{{ event.photo_3.url }}" class="small-image w-100 h-100" style="object-fit: cover; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#photoModal3">
+                            </div>
+                        {% endif %}
+
+                        {% if event.photo_2 and not event.photo_3 %}
+                            <div class="bg-light h-50 d-flex align-items-center justify-content-center text-muted" style="border-radius: 0 0 1rem 0;">
+                                <small>Більше фото немає</small>
+                            </div>
+                        {% endif %}
                     </div>
-                    <div class="overflow-hidden rounded position-relative">
-                        {% if event.photo %}<img src="{{ event.photo.url }}" class="small-image opacity-75">{% endif %}
-                        <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-50 text-white fw-bold">
-                            +More
-                        </div>
+
+                {% else %}
+
+                    <div class="col-12">
+                        <img src="{{ event.photo.url }}" class="img-fluid rounded-4 main-image w-100" alt="{{ event.title }}">
                     </div>
-                </div>
+
+                {% endif %}
             </div>
         </div>
+
+        {% if event.photo_2 %}
+        <div class="modal fade" id="photoModal2" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-transparent border-0">
+              <div class="modal-body p-0 text-center">
+                <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                <img src="{{ event.photo_2.url }}" class="img-fluid rounded">
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+        {% if event.photo_3 %}
+        <div class="modal fade" id="photoModal3" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-transparent border-0">
+              <div class="modal-body p-0 text-center">
+                <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                <img src="{{ event.photo_3.url }}" class="img-fluid rounded">
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
 
         <div class="col-lg-4">
 
@@ -169,7 +208,7 @@
                             <form action="{% url 'book_event' event.pk %}" method="post">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-brand rounded-pill shadow">
-                                    Забронювати місце
+                                    Забронювати
                                 </button>
                             </form>
                         {% endif %}
@@ -284,7 +323,7 @@
                             <form action="{% url 'book_event' event.pk %}" method="post">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-brand btn-lg rounded-pill shadow">
-                                    Забронювати місце
+                                    Забронювати
                                 </button>
                             </form>
                         {% endif %}

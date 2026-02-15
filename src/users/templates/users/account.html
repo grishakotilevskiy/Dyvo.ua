@@ -92,7 +92,7 @@
             <!-- Actions -->
             <div class="d-grid gap-2">
                 {% if user.is_host %}
-                    <a href="{% url 'admin:users_event_add' %}" class="btn btn-lg">Створити Враження</a>
+                    <a href="{% url 'create_event' %}" class="btn btn-lg">Створити Враження</a>
                 {% else %}
                     <a href="{% url 'my_events' %}" class="btn btn-lg">Мої бронювання</a>
                 {% endif %}

@@ -1,5 +1,5 @@
 ﻿from django.urls import path
-from .views import register_view, terms_view, login_view, account_view, host_register_view, logout_view, event_detail, book_event, my_events
+from .views import register_view, terms_view, login_view, account_view, host_register_view, logout_view, event_detail, book_event, my_events, create_event_view
 from django.contrib.auth import views as auth_views
 urlpatterns = [
     path("register/", register_view, name="register"),
@@ -36,4 +36,7 @@ urlpatterns = [
     path("my_events/",
          my_events,
          name="my_events"),
+    path("create_event/",
+         create_event_view,
+         name="create_event"),
 ]

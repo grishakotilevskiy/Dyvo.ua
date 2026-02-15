@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout
-from .forms import RegistrationForm, HostRegistrationForm, LoginForm
+from .forms import RegistrationForm, HostRegistrationForm, LoginForm, EventCreationForm
 from .models import Event
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 
+def is_host_check(user):
+    return user.is_authenticated and user.is_host
 
 def register_view(request):
     if request.method == "POST":
@@ -71,7 +73,7 @@ def book_event(request, pk):
     event = get_object_or_404(Event, pk=pk)
 
     if request.user.is_host:
-        return redirect('event_detail', pk=pk)
+        return redirect("event_detail", pk=pk)
 
     if request.user not in event.guests.all() and event.guests.count() < event.max_guests:
         event.guests.add(request.user)
@@ -84,3 +86,19 @@ def my_events(request):
     events = request.user.attended_events.all()
 
     return render(request, "users/my_events.html", {"events": events})
+
+@login_required
+@user_passes_test(is_host_check, login_url="account")
+def create_event_view(request):
+    if request.method == "POST":
+        form = EventCreationForm(request.POST, request.FILES)
+        if form.is_valid():
+            event = form.save(commit=False)
+            event.owner = request.user
+            event.save()
+            # return redirect("event_detail", pk=event.pk)
+            return redirect("account")
+    else:
+        form = EventCreationForm()
+
+    return render(request, "users/create_event.html", {"form": form})

@@ -10,7 +10,7 @@
 <body>
     <div class="login-container">
         <h1 class="login-title">Знайди своє Dyvo!</h1>
-        <p class="login-subtitle">Або <a href="{% url 'users:register' %}">створити акаунт</a></p>
+        <p class="login-subtitle">Або <a href="{% url 'register' %}">створити акаунт</a></p>
         
         {% if form.non_field_errors %}
         <div class="error-message">
@@ -55,7 +55,7 @@
                 {% endif %}
             </div>
             
-            <a href="{% url 'users:reset_password' %}" class="forgot-password">Забули пароль?</a>
+            <a href="{% url 'reset_password' %}" class="forgot-password">Забули пароль?</a>
             
             <button type="submit" class="login-button">Увійти в акаунт</button>
         </form>

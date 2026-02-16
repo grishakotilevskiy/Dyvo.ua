@@ -6,6 +6,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import Group
 import re
 from .validators import validate_latin_only, validate_email, validate_phone
+from .models import Event
 
 User = get_user_model()
 
@@ -321,3 +322,50 @@ class LoginForm(AuthenticationForm):
             "id": "id_password"
         })
     )
+
+class EventCreationForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        exclude = ["owner", "guests", "created_at"]
+
+        widgets = {
+            "title": forms.TextInput(attrs={"class": "form-control", "placeholder": "Назва події"}),
+            "description": forms.Textarea(
+                attrs={"class": "form-control", "rows": 4, "placeholder": "Опишіть ваше враження"}),
+            # 'category': forms.Select(attrs={'class': 'form-control'}),
+            "category": forms.RadioSelect(),
+            "address": forms.TextInput(attrs={"class": "form-control", "placeholder": "м. Київ, вул. Хрещатик, 1"}),
+            "max_guests": forms.NumberInput(attrs={"class": "form-control", "min": 1}),
+            "photo": forms.FileInput(attrs={"class": "form-control"}),
+            "photo_2": forms.FileInput(attrs={"class": "form-control"}),
+            "photo_3": forms.FileInput(attrs={"class": "form-control"}),
+            "ticket_price": forms.NumberInput(attrs={"class": "form-control", "placeholder": "0.00"}),
+            "duration": forms.TextInput(attrs={"class": "form-control", "placeholder": "Наприклад: 2 години"}),
+            "date": forms.DateTimeInput(attrs={"class": "form-control", "type": "datetime-local"}),
+            "social1": forms.URLInput(attrs={"class": "form-control", "placeholder": "https://..."}),
+            "social2": forms.URLInput(attrs={"class": "form-control", "placeholder": "https://..."}),
+        }
+        labels = {
+            "date": "Дата та час початку",
+        }
+        error_messages = {
+            'title': {
+                'required': "Це поле є обов'язковим",
+            },
+            'description': {
+                'required': "Це поле є обов'язковим",
+            },
+            'category': {
+                'required': "Це поле є обов'язковим",
+            },
+            'address': {
+                'required': "Це поле є обов'язковим",
+            },
+            'max_guests': {
+                'required': "Це поле є обов'язковим",
+                'invalid': "Введіть коректне число",
+            },
+            'photo': {
+                'required': "Це поле є обов'язковим",
+            },
+        }

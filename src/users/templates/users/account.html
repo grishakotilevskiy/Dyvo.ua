@@ -92,15 +92,15 @@
             <!-- Actions -->
             <div class="d-grid gap-2">
                 {% if user.is_host %}
-                    <a href="{% url 'admin:users_event_add' %}" class="btn btn-lg">Створити Враження</a>
+                    <a href="{% url 'create_event' %}" class="btn btn-lg">Створити Враження</a>
                 {% else %}
-                    <a href="#" class="btn btn-lg">Знайти Враження</a>
+                    <a href="{% url 'my_events' %}" class="btn btn-lg">Мої бронювання</a>
                 {% endif %}
                 <a href="{% url 'logout' %}" class="btn btn-outline-danger mt-2">Вийти</a>
             </div>
         </div>
     {% else %}
-        <!-- Unauthorized users block -->
+            <!-- Unauthorized users block -->
         <div class="profile-card">
             <h1>Ласкаво просимо в Dyvo!</h1>
             <p class="mb-4">Знайди своє незабутнє враження або стань партнером.</p>

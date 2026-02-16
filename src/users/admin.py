@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import CustomUser, Event
 from django.contrib.auth.admin import UserAdmin
+from django.utils.html import format_html
 
 
 # Admin pannel for users
@@ -41,6 +42,19 @@ class EventAdmin(admin.ModelAdmin):
 
     # Hide automatically set fields
     exclude = ('owner', 'guests', 'created_at')
+
+    view_on_site = True
+
+    def show_public_link(self, obj):
+        if obj.pk:
+            # Uses the get_absolute_url method we defined in Step 1
+            return format_html(
+                '<a href="{}" target="_blank" style="font-weight:bold;">Open Page</a>',
+                obj.get_absolute_url()
+            )
+        return "-"
+
+    show_public_link.short_description = "Public Link"
 
     def get_queryset(self, request):
         # Filtering only this host's events

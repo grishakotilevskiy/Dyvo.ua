@@ -2,9 +2,11 @@
 
 # virtual environment
 /.venv/
-/.env/
 /venv/
-/env/
+
+# environment variables (secrets)
+.env
+*.env
 
 # ide configs
 /.vscode/

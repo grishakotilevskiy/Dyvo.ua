@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomUser, Event
+from .models import CustomUser, Event, Review
 from django.contrib.auth.admin import UserAdmin
 from django.utils.html import format_html
 
@@ -96,3 +96,10 @@ class EventAdmin(admin.ModelAdmin):
         if obj and obj.owner != request.user:
             return False
         return getattr(request.user, 'is_host', False)
+
+
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ("author_name", "location", "rating", "is_featured", "is_published", "created_at")
+    list_filter = ("is_featured", "is_published")
+    search_fields = ("author_name", "location", "text")

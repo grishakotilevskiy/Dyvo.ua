@@ -137,7 +137,7 @@
                 <div class="mb-2 form-check mt-auto">
                     {{ form.terms_confirmed }}
                     <label class="form-check-label" for="{{ form.terms_confirmed.id_for_label }}">
-                        Натискаючи ви погоджуєтеся з <a href="{% url 'terms' %}" target="_blank">правилами сайту</a>
+                        Натискаючи ви погоджуєтеся з <a href="{% url 'users:terms' %}" target="_blank">правилами сайту</a>
                     </label>
                     {% if form.terms_confirmed.errors %}<div class="text-danger small">{{ form.terms_confirmed.errors.0 }}</div>{% endif %}
                 </div>
@@ -201,7 +201,7 @@
                 </div>
 
                 <div class="bottom-link">
-                    <a href="{% url 'login' %}" class="auth-link">В мене вже є аккаунт</a>
+                    <a href="{% url 'users:login' %}" class="auth-link">В мене вже є аккаунт</a>
                 </div>
 
             </div>

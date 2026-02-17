@@ -1,0 +1,328 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dyvo - Знайди своє враження!</title>
+
+    <!-- Google Fonts: Nunito -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+
+    <!-- Main Page CSS -->
+    <link href="{% static 'users/css/main_page.css' %}" rel="stylesheet">
+</head>
+<body class="main-page">
+
+    <section class="hero-section">
+        <div class="hero-background"></div>
+
+        <div class="hero-frame">
+            <nav class="main-nav">
+                <a href="{% url 'users:main_page' %}" class="logo">
+                    <img src="{% static 'users/images/main_logo.png' %}" alt="Dyvo" class="logo-image">
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="#catalog">Каталог</a></li>
+                </ul>
+
+                <div class="nav-buttons">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'users:account' %}" class="btn-profile">
+                            {% if user.avatar %}
+                                <img src="{{ user.avatar.url }}" alt="{{ user.first_name }}" class="avatar-small">
+                            {% endif %}
+                            {{ user.first_name }}
+                        </a>
+                        {% if not user.is_host %}
+                            <a href="{% url 'users:host_register' %}" class="btn-host">Стати хостом</a>
+                        {% endif %}
+                        <a href="{% url 'users:logout' %}" class="btn-logout">Вийти</a>
+                    {% else %}
+                        <a href="{% url 'users:login' %}" class="btn-login">Увійти</a>
+                        <a href="{% url 'users:host_register' %}" class="btn-host">Стати хостом</a>
+                    {% endif %}
+                </div>
+            </nav>
+            <div class="hero-content">
+                <h1 class="hero-title">Знайди своє <span class="highlight">враження!</span></h1>
+                <p class="hero-subtitle">
+                    Платформа для тих, хто шукає нових вражень, прагне нових знайомств та хоче відкрити Україну по-новому
+                </p>
+
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'users:register' %}" class="btn-register-cta">Реєструйся зараз!</a>
+                {% endif %}
+            </div>
+
+            <div class="search-filter-container">
+                <form class="search-filter" method="GET" action="#catalog">
+                    <div class="filter-item">
+                        <label for="location">Локація</label>
+                        <select id="location" name="location">
+                            <option value="">Локація</option>
+                            <option value="kyiv">Київська область</option>
+                            <option value="lviv">Львівська область</option>
+                            <option value="odesa">Одеська область</option>
+                            <option value="kharkiv">Харківська область</option>
+                            <option value="dnipro">Дніпропетровська область</option>
+                            <option value="zaporizhzhia">Запорізька область</option>
+                            <option value="vinnytsia">Вінницька область</option>
+                            <option value="poltava">Полтавська область</option>
+                            <option value="chernihiv">Чернігівська область</option>
+                            <option value="cherkasy">Черкаська область</option>
+                            <option value="zhytomyr">Житомирська область</option>
+                            <option value="sumy">Сумська область</option>
+                            <option value="rivne">Рівненська область</option>
+                            <option value="khmelnytskyi">Хмельницька область</option>
+                            <option value="volyn">Волинська область</option>
+                            <option value="ternopil">Тернопільська область</option>
+                            <option value="ivano-frankivsk">Івано-Франківська область</option>
+                            <option value="zakarpattia">Закарпатська область</option>
+                            <option value="chernivtsi">Чернівецька область</option>
+                            <option value="mykolaiv">Миколаївська область</option>
+                            <option value="kherson">Херсонська область</option>
+                            <option value="kirovohrad">Кіровоградська область</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-item">
+                        <label for="price">Вартість</label>
+                        <select id="price" name="price">
+                            <option value="">Вартість</option>
+                            <option value="0-500">До 500 грн</option>
+                            <option value="500-1000">500 - 1000 грн</option>
+                            <option value="1000-2000">1000 - 2000 грн</option>
+                            <option value="2000-5000">2000 - 5000 грн</option>
+                            <option value="5000+">Від 5000 грн</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-item">
+                        <label for="date">Дата</label>
+                        <select id="date" name="date">
+                            <option value="">Дата</option>
+                            <option value="today">Сьогодні</option>
+                            <option value="tomorrow">Завтра</option>
+                            <option value="week">Цей тиждень</option>
+                            <option value="month">Цей місяць</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-item">
+                        <label for="participants">Учасники</label>
+                        <select id="participants" name="participants">
+                            <option value="">Учасники</option>
+                            <option value="1">1 учасник</option>
+                            <option value="2">2 учасники</option>
+                            <option value="3-5">3-5 учасників</option>
+                            <option value="6-10">6-10 учасників</option>
+                            <option value="10+">Більше 10</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn-search">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10 2a8 8 0 105.293 14.707l4.5 4.5a1 1 0 001.414-1.414l-4.5-4.5A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z"/>
+                        </svg>
+                        Пошук
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="catalog" class="catalog-section">
+        <div class="catalog-header">
+            <h2 class="catalog-title">Каталог вражень</h2>
+            <div class="catalog-categories">
+                <button class="category-btn active" data-category="all">
+                    <span class="category-icon">🏷️</span>
+                    Все
+                </button>
+                <button class="category-btn" data-category="new">
+                    <span class="category-icon">📈</span>
+                    Новинки
+                </button>
+                <button class="category-btn" data-category="activity">
+                    <span class="category-icon">🚲</span>
+                    Активні вихідні
+                </button>
+                <button class="category-btn" data-category="culture">
+                    <span class="category-icon">📷</span>
+                    Екскурсії та культура
+                </button>
+                <button class="category-btn" data-category="food">
+                    <span class="category-icon">🥤</span>
+                    Їжа та дегустації
+                </button>
+                <button class="category-btn" data-category="handmade">
+                    <span class="category-icon">🖌️</span>
+                    Своїми руками
+                </button>
+                <button class="category-btn" data-category="other">
+                    <span class="category-icon">✨</span>
+                    Різне
+                </button>
+            </div>
+        </div>
+
+        <div class="catalog-grid">
+            {% if events %}
+                {% for event in events %}
+                    <article class="catalog-card" data-category="{{ event.category }}">
+                        {% if event.photo %}
+                            <div class="catalog-card-image" style="background-image: url('{{ event.photo.url }}');"></div>
+                        {% else %}
+                            <div class="catalog-card-image catalog-card-image--placeholder"></div>
+                        {% endif %}
+                        <div class="favorite-badge">❤</div>
+                        <div class="catalog-card-body">
+                            <div class="catalog-card-texts">
+                                <h3 class="catalog-card-title">{{ event.title }}</h3>
+                                <p class="catalog-card-text">{{ event.description|truncatechars:120 }}</p>
+                            </div>
+                            <div class="catalog-card-meta">
+                                {% if event.ticket_price %}
+                                    <span class="price-pill">{{ event.ticket_price|floatformat:0 }} грн</span>
+                                {% else %}
+                                    <span class="price-pill">Ціна уточнюється</span>
+                                {% endif %}
+                                <span class="rating"><span class="star">★</span> 4.9</span>
+                            </div>
+                            <button class="btn-book">Забронювати</button>
+                        </div>
+                    </article>
+                {% endfor %}
+            {% else %}
+                <p class="catalog-empty">Поки немає вражень. Станьте першим хостом!</p>
+            {% endif %}
+        </div>
+
+        <div class="catalog-actions">
+            <button class="btn-show-more">Показати ще</button>
+        </div>
+    </section>
+
+    <section id="story" class="story-section">
+        <div class="story-header">
+            <h2 class="story-title">Ми більше, ніж маркетплейс...</h2>
+        </div>
+
+        <div class="story-collage">
+            <div class="story-collage-grid story-collage-grid--top">
+                <div class="story-tile tile-1"></div>
+                <div class="story-tile tile-2"></div>
+                <div class="story-tile tile-3"></div>
+                <div class="story-tile tile-4"></div>
+                <div class="story-tile tile-5"></div>
+            </div>
+
+            <div class="story-banner">
+                Ми — це спільна історія тисячі людей, які обирають жити, підтримувати та берегти своє попри все
+            </div>
+
+            <div class="story-collage-grid story-collage-grid--bottom">
+                <div class="story-tile tile-6"></div>
+                <div class="story-tile tile-7"></div>
+                <div class="story-tile tile-8"></div>
+                <div class="story-tile tile-9"></div>
+                <div class="story-tile tile-10"></div>
+            </div>
+        </div>
+
+        <p class="story-text">
+            Ми створили цей проект у часи, коли кожен українець відчув, наскільки крихким є звичний світ і наскільки цінним —
+            наше коріння.
+            <span class="story-highlight">Сьогодні «відпочинок» — це не просто відпустка, це спосіб віднайти внутрішній спокій та сили йти далі.</span>
+            Ми віримо, що справжня Україна — не в підручниках, а в руках майстра, який тримає стамеску, у запаху свіжоспеченого
+            хліба в селі на деокупованій території, у спокої пасіки під мирним небом.
+            <span class="story-separated">Наш маркетплейс — це міст між вами та людьми, які крізь війну, втому та обставини продовжують берегти наше: традиції, ремесла та неймовірну жагу до життя.</span>
+            <span class="story-highlight">Чому це важливо саме зараз?</span>
+            Кожне заброньоване вами враження — це не просто емоція для вас. Це пряма підтримка
+            українського мікробізнесу, це можливість для майстра з маленького села не закрити свою справу, а для ветерана —
+            знайти себе у новому ремеслі. Ми допомагаємо тим, хто десятиліттями мріяв ділитися своїм талантом та нарешті бути почутим.
+        </p>
+    </section>
+
+    {% if reviews_featured or reviews_regular %}
+        <section id="reviews" class="reviews-section">
+            <div class="reviews-header">
+                <h2 class="reviews-title">Відгуки користувачів</h2>
+                <p class="reviews-subtitle">Справжні історії створення Dyvo</p>
+            </div>
+
+            {% if reviews_featured %}
+                <div class="reviews-grid">
+                    {% for review in reviews_featured %}
+                        <article class="review-card">
+                            {% if review.avatar %}
+                                <img src="{{ review.avatar.url }}" alt="{{ review.author_name }}" class="review-avatar-img">
+                            {% else %}
+                                <div class="review-avatar">{{ review.author_name|first|upper }}</div>
+                            {% endif %}
+                            <h3 class="review-name">
+                                {{ review.author_name }}{% if review.location %}, {{ review.location }}{% endif %}
+                            </h3>
+                            <p class="review-text">{{ review.text }}</p>
+                            <div class="review-rating">★ {{ review.rating }}</div>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if reviews_regular %}
+                <div class="reviews-grid reviews-grid-sm">
+                    {% for review in reviews_regular %}
+                        <article class="review-card review-card--compact">
+                            <h3 class="review-name">
+                                {{ review.author_name }}{% if review.location %}, {{ review.location }}{% endif %}
+                            </h3>
+                            <p class="review-text">{{ review.text }}</p>
+                            <div class="review-rating">★ {{ review.rating }}</div>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </section>
+    {% endif %}
+
+    <section class="footer-logo-section">
+        <img src="{% static 'users/images/main_logo.png' %}" alt="Dyvo" class="footer-logo-image">
+    </section>
+
+    <script>
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                const category = this.dataset.category;
+                console.log('Selected category:', category);
+            });
+        });
+        document.querySelector('.search-filter').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const params = {};
+
+            for (let [key, value] of formData.entries()) {
+                if (value) params[key] = value;
+            }
+
+            console.log('Search params:', params);
+            document.getElementById('catalog').scrollIntoView({ behavior: 'smooth' });
+        });
+        const dateInput = document.getElementById('date');
+        if (dateInput) {
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.setAttribute('min', today);
+        }
+    </script>
+
+</body>
+</html>

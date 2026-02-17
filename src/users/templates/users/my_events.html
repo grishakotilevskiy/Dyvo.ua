@@ -65,10 +65,10 @@
 
 <nav class="container pt-4 pb-2">
     <div class="d-flex justify-content-end gap-3">
-        <a href="{% url 'account' %}" class="btn btn-outline-brand rounded-pill px-4 fw-bold">
+        <a href="{% url 'users:main_page' %}" class="btn btn-outline-brand rounded-pill px-4 fw-bold">
             На головну
         </a>
-        <a href="{% url 'account' %}" class="btn btn-brand rounded-pill px-4 fw-bold shadow-sm">
+        <a href="{% url 'users:account' %}" class="btn btn-brand rounded-pill px-4 fw-bold shadow-sm">
             Аккаунт
         </a>
     </div>
@@ -111,7 +111,7 @@
                         </div>
                         <p class="fw-bold text-success">Верифіковано</p>
 
-                        <a href="{% url 'event_detail' event.pk %}" class="btn btn-brand rounded-pill w-100 fw-bold shadow-sm">
+                        <a href="{% url 'users:event_detail' event.pk %}" class="btn btn-brand rounded-pill w-100 fw-bold shadow-sm">
                             Деталі
                         </a>
                     </div>
@@ -124,7 +124,7 @@
             <div class="alert alert-light border border-secondary-subtle shadow-sm d-inline-block px-5 py-4 rounded-4">
                 <h4 class="text-brand fw-bold mb-3">У вас поки немає запланованих вражень</h4>
                 <p class="text-muted mb-4">Саме час знайти щось цікаве для себе!</p>
-                <a href="{% url 'account' %}" class="btn btn-brand rounded-pill px-5 py-2 shadow">
+                <a href="{% url 'users:main_page' %}" class="btn btn-brand rounded-pill px-5 py-2 shadow">
                     Знайти враження
                 </a>
             </div>

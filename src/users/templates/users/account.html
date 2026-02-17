@@ -92,11 +92,11 @@
             <!-- Actions -->
             <div class="d-grid gap-2">
                 {% if user.is_host %}
-                    <a href="{% url 'create_event' %}" class="btn btn-lg">Створити Враження</a>
+                    <a href="{% url 'users:create_event' %}" class="btn btn-lg">Створити Враження</a>
                 {% else %}
-                    <a href="{% url 'my_events' %}" class="btn btn-lg">Мої бронювання</a>
+                    <a href="{% url 'users:my_events' %}" class="btn btn-lg">Мої бронювання</a>
                 {% endif %}
-                <a href="{% url 'logout' %}" class="btn btn-outline-danger mt-2">Вийти</a>
+                <a href="{% url 'users:logout' %}" class="btn btn-outline-danger mt-2">Вийти</a>
             </div>
         </div>
     {% else %}
@@ -105,9 +105,9 @@
             <h1>Ласкаво просимо в Dyvo!</h1>
             <p class="mb-4">Знайди своє незабутнє враження або стань партнером.</p>
             <div class="d-grid gap-2">
-                <a href="{% url 'login' %}" class="btn btn-lg">Увійти</a>
-                <a href="{% url 'register' %}" class="btn btn-outline-secondary">Реєстрація</a>
-                <a href="{% url 'host_register' %}" class="btn btn-outline-secondary">Стати хостом</a>
+                <a href="{% url 'users:login' %}" class="btn btn-lg">Увійти</a>
+                <a href="{% url 'users:register' %}" class="btn btn-outline-secondary">Реєстрація</a>
+                <a href="{% url 'users:host_register' %}" class="btn btn-outline-secondary">Стати хостом</a>
             </div>
         </div>
     {% endif %}

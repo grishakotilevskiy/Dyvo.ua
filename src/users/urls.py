@@ -1,7 +1,11 @@
 ﻿from django.urls import path
-from .views import register_view, terms_view, login_view, account_view, host_register_view, logout_view, event_detail, book_event, my_events, create_event_view
+from .views import register_view, terms_view, login_view, account_view, host_register_view, logout_view, main_page_view, event_detail, book_event, my_events, create_event_view
 from django.contrib.auth import views as auth_views
+
+app_name = "users"
+
 urlpatterns = [
+     path("", main_page_view, name="main_page"),
     path("register/", register_view, name="register"),
     path("terms/", terms_view, name="terms"),
     path("login/", login_view, name="login"),

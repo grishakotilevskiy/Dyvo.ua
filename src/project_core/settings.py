@@ -37,7 +37,14 @@ SECRET_KEY = "django-insecure-ir1a1f!bjywcs+1$shmpbq=6ss3!0!^%tha*midcv=mn*48x^f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['129.151.226.199', 'localhost', '127.0.0.1']
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:8000",
+    "http://localhost:8000",
+    "http://129.151.226.199",
+    "http://129.151.226.199:8000",
+]
 
 
 # Application definition
@@ -156,3 +163,8 @@ MEDIA_URL = '/media/'
 
 # Path where media is stored
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Auth
+LOGIN_URL = 'users:login'
+LOGIN_REDIRECT_URL = 'users:account'
+LOGOUT_REDIRECT_URL = 'users:main_page'

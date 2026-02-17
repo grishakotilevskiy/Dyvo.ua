@@ -166,5 +166,27 @@ class Event(gis_models.Model):
         return self.title
 
     def get_absolute_url(self):
-        # This points to the url name 'event_detail'
-        return reverse('event_detail', kwargs={'pk': self.pk})
+        return reverse('users:event_detail', kwargs={'pk': self.pk})
+
+class Review(gis_models.Model):
+    author_name = gis_models.CharField(max_length=120, verbose_name="Ім'я автора")
+    location = gis_models.CharField(max_length=120, blank=True, null=True, verbose_name="Локація")
+    text = gis_models.TextField(verbose_name="Текст відгуку")
+    rating = gis_models.DecimalField(
+        max_digits=2,
+        decimal_places=1,
+        default=5.0,
+        verbose_name="Оцінка"
+    )
+    avatar = gis_models.ImageField(upload_to="review_avatars/", blank=True, null=True, verbose_name="Аватар")
+    is_featured = gis_models.BooleanField(default=False, verbose_name="Показувати у верхньому блоці")
+    is_published = gis_models.BooleanField(default=True, verbose_name="Опубліковано")
+    created_at = gis_models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Відгук"
+        verbose_name_plural = "Відгуки"
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return self.author_name
